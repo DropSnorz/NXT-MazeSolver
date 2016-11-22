@@ -1,5 +1,6 @@
 package robot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Zone {
@@ -10,10 +11,9 @@ public class Zone {
 	protected Map<Direction, StateEnum> stateMap;
 
 	public Zone(int x, int y) {
-		super();
 		this.x = x;
 		this.y = y;
-
+		stateMap = new HashMap<Direction, StateEnum>();
 		stateMap.put(Direction.NORTH, StateEnum.STATE_UNKNOW);
 		stateMap.put(Direction.SOUTH, StateEnum.STATE_UNKNOW);
 		stateMap.put(Direction.EAST, StateEnum.STATE_UNKNOW);

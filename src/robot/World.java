@@ -9,6 +9,7 @@ public class World {
 	protected Zone currentZone;
 
 	public World() {
+	
 		zoneList = new ArrayList<Zone>();
 		Zone initZone = new Zone(0,0);
 		currentZone = initZone;
@@ -17,8 +18,8 @@ public class World {
 		zoneList.add(new Zone(1,0));
 		zoneList.add(new Zone(0,1));
 		zoneList.add(new Zone(1,0));
-		
 	}
+		
 	
 	public Zone reachNextZone(Direction direction){
 		
