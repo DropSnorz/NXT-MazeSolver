@@ -7,7 +7,7 @@ public class Zone {
 
 	protected int x;
 	protected int y;
-	
+
 	protected Map<Direction, StateEnum> stateMap;
 
 	public Zone(int x, int y) {
@@ -31,6 +31,18 @@ public class Zone {
 
 	}
 
+	public boolean isFullyDiscovered(){
+
+		for(Map.Entry<Direction,StateEnum > entry : stateMap.entrySet()) {
+			StateEnum value = entry.getValue();
+			
+			if(value == StateEnum.STATE_UNKNOW){
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -46,6 +58,6 @@ public class Zone {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
-	
+
+
 }

@@ -6,6 +6,8 @@ import java.util.List;
 public class World {
 
 	protected List<Zone>zoneList;
+	
+	protected List<Zone>visitedZones;
 	protected Zone currentZone;
 
 	public World() {
@@ -48,6 +50,9 @@ public class World {
 			zone = getZone(x,y);
 		}
 		
+		if(!hasBeenVisited(zone)){
+			visitedZones.add(zone);
+		}
 		currentZone = zone;
 		return zone;
 	}
@@ -106,6 +111,10 @@ public class World {
 		}
 		
 		return getZone(x,y);
+	}
+	
+	public boolean hasBeenVisited(Zone zone){
+		return visitedZones.contains(zone);
 	}
 	
 	public Zone getCurrentZone() {

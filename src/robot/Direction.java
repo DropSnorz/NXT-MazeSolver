@@ -26,4 +26,13 @@ public enum Direction {
 	public Direction previous(){
 		return values()[ordinal()-1];
 	}
+	
+	public Direction reverse(){
+		if(ordinal() < 2){
+			return values()[ordinal() + 2];
+		}
+		else{
+			return values()[ordinal()-2];
+		}
+	}
 }
