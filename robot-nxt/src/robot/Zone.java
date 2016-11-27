@@ -35,7 +35,7 @@ public class Zone {
 
 		for(Map.Entry<Direction,StateEnum > entry : stateMap.entrySet()) {
 			StateEnum value = entry.getValue();
-			
+
 			if(value == StateEnum.STATE_UNKNOW){
 				return false;
 			}
@@ -57,6 +57,24 @@ public class Zone {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	public boolean equals(Object o){
+
+		if(o instanceof Zone){
+			Zone zone = (Zone)o;
+			if(this.x == zone.getX() && this.y == zone.getY()){
+				return true;
+			}
+			return false;
+		}
+		else{
+			return super.equals(o);
+		}
+	}
+	
+	public String toString(){
+		return "Zone: " + x + ", " + y;
 	}
 
 

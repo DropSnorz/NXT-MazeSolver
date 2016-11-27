@@ -1,27 +1,46 @@
 package robot;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class World {
 
-	protected List<Zone>zoneList;
+	protected Set<Zone>zoneList;
 	
 	protected List<Zone>visitedZones;
 	protected Zone currentZone;
 
 	public World() {
 	
-		zoneList = new ArrayList<Zone>();
+		zoneList = new HashSet<Zone>();
+		visitedZones = new ArrayList<Zone>();
 		Zone initZone = new Zone(0,0);
 		currentZone = initZone;
+		zoneList.add(initZone);
+		visitedZones.add(initZone);
 		
 		zoneList.add(new Zone(0,-1));
 		zoneList.add(new Zone(1,0));
 		zoneList.add(new Zone(0,1));
-		zoneList.add(new Zone(1,0));
+		zoneList.add(new Zone(-1,0));
 	}
-		
+	
+	public Zone getOrCreateZone(int x, int y){
+		if(!containsZone(x,y)){
+			Zone zone = new Zone(x,y);
+			zoneList.add(zone);
+			initZoneBorders(x,y);
+			System.out.println(zone);
+
+
+			return zone;
+		}
+		else{
+			return getZone(x,y);
+		}
+	}
 	
 	public Zone reachNextZone(Direction direction){
 		
@@ -45,10 +64,12 @@ public class World {
 		if(!containsZone(x,y)){
 			zone = new Zone(x,y);
 			zoneList.add(zone);
-			initZoneBorders(x,y);
+			
 		}else{
 			zone = getZone(x,y);
 		}
+		initZoneBorders(x,y);
+
 		
 		if(!hasBeenVisited(zone)){
 			visitedZones.add(zone);
@@ -82,13 +103,13 @@ public class World {
 			zoneList.add(new Zone(x + 1,y));
 		}
 		if(!containsZone(x - 1,y)){
-			zoneList.add(new Zone(x + 1,y));
+			zoneList.add(new Zone(x - 1,y));
 		}
 		if(!containsZone(x,y + 1)){
-			zoneList.add(new Zone(x + 1,y));
+			zoneList.add(new Zone(x,y + 1));
 		}
 		if(!containsZone(x,y - 1)){
-			zoneList.add(new Zone(x + 1,y));
+			zoneList.add(new Zone(x,y - 1));
 		}
 	}
 
@@ -125,8 +146,6 @@ public class World {
 		this.currentZone = currentZone;
 	}
 	
-	
-	
-	
-	
 }
+
+ 	

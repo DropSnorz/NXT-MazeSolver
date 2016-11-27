@@ -9,19 +9,19 @@ public class Robot {
 
 	protected String name;
 	protected Direction direction;
-	protected boolean hasFindExit;
-	protected LightSensor l4;
-	protected LightSensor l2;
-	protected UltrasonicSensor us;
+	public boolean hasFindExit;
+	protected IContext context;
 	
 	protected World world;
 	
-	Robot(String name){
+	public Robot(String name){
 		this.name = name;
 		direction = Direction.NORTH;
+		/*
 		l4 = new LightSensor(SensorPort.S4);
 		l2 = new LightSensor(SensorPort.S2);
 		us = new UltrasonicSensor(SensorPort.S1);
+		*/
 		world = new World();
 	}
 	
@@ -64,31 +64,39 @@ public class Robot {
 	
 	public void moveToTheNextZone(){
 		//TODO impl
-		Motor.A.forward();
-		Motor.C.forward();
-		
+
+		context.reachNextZone();
 		world.reachNextZone(direction);
+		
 	}
 	
 	public void turnLeft(){
-		//TODO impl
 		
-		Motor.A.rotate(600);
-		Motor.C.rotate(-600);
+		context.turnLeft();
 		direction = direction.previous();
 		
 	}
 	public void turnRight(){
-		//TODO impl
-		Motor.C.rotate(600);
-		Motor.A.rotate(-600);
+
+		context.turnRight();
 		direction = direction.next();
 		
 	}
 	
 	public boolean scanContext(){
 		//TODO impl
-		boolean available = true;
+		int d = context.getFrontDistance();
+		boolean available;
+		if(d < 100){
+			available = false;
+		}
+		else{
+			available = true;
+		}
+		
+		if(d > 900){
+			this.hasFindExit = true;
+		}
 		
 		if(available){
 			world.getCurrentZone().setState(direction, StateEnum.STATE_ACCESSIBLE);
@@ -102,4 +110,14 @@ public class Robot {
 		
 		return available;
 	}
+
+	public IContext getContext() {
+		return context;
+	}
+
+	public void setContext(IContext context) {
+		this.context = context;
+	}
+	
+	
 }
