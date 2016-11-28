@@ -26,7 +26,41 @@ public static void main(String[] args) {
 		memWorld.getOrCreateZone(1, 1).setState(Direction.SOUTH, StateEnum.STATE_EXIT);
 		memWorld.getOrCreateZone(1, 1).setState(Direction.WEST, StateEnum.STATE_INACCESSIBLE);
 		
-		MemoryContext context = new MemoryContext(memWorld);
+		
+		MazeBuilder builder = new MazeBuilder();
+		builder.addPath(0, 0, Direction.EAST);
+		builder.addExit(0, 0, Direction.WEST);
+		builder.addPath(1, 0, Direction.NORTH);
+		builder.addPath(1, 0, Direction.SOUTH);
+		
+		builder.addPath(1, -1, Direction.EAST);
+		
+		builder.addPath(2, -1, Direction.EAST);
+		
+		builder.addPath(3, -1, Direction.SOUTH);
+		
+		builder.addPath(3, 0, Direction.SOUTH);
+		
+		builder.addPath(3,1, Direction.WEST);
+		
+		builder.addPath(2,1, Direction.WEST);
+		
+		builder.addPath(1,1, Direction.NORTH);
+		
+		//builder.addExit(3, 0, Direction.EAST);
+		
+		World world2 = builder.getWorld();
+
+
+
+
+
+
+
+		
+		
+		
+		MemoryContext context = new MemoryContext(world2);
 		robot.setContext(context);
 		int i = 100;
 		while(!robot.hasFindExit && i > 0){

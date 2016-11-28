@@ -34,9 +34,11 @@ public class Robot {
 		StateEnum state = world.getCurrentZone().getState(direction);
 		Zone currentZone = world.getCurrentZone();
 		Zone nextZone = world.getNextZone(direction);
+		boolean scan = false;
 		
 		if(state == StateEnum.STATE_UNKNOW){
 			scanContext();
+			scan = true;
 			state = world.getCurrentZone().getState(direction);
 
 		}
@@ -45,17 +47,26 @@ public class Robot {
 			//Chemin bloqué, on tourne a droite;
 			turnRight();
 		}
+		
 		else if (state == StateEnum.STATE_ACCESSIBLE && !world.hasBeenVisited(nextZone)){
 			//Chemin viable et prochaine zone iconnue, on continue (inutile?)
 			moveToTheNextZone();
 		}
+		
+		else if (state == StateEnum.STATE_ACCESSIBLE && scan){
+			moveToTheNextZone();
+		}
+		
+		
 		else if(state == StateEnum.STATE_ACCESSIBLE && 
 				world.hasBeenVisited(nextZone) &&
 				!currentZone.isFullyDiscovered()){
 			//Chemin viable, prochaine zone connue, zone courante non pleinement découverte.
 			//On tourne a droite à la recherche de nouveaux chemins.
 			turnRight();
-		}
+		}		
+			
+		
 		else{
 			moveToTheNextZone();
 		}
@@ -100,7 +111,8 @@ public class Robot {
 		
 		if(available){
 			world.getCurrentZone().setState(direction, StateEnum.STATE_ACCESSIBLE);
-			world.getNextZone(direction).setState(direction.reverse(), StateEnum.STATE_ACCESSIBLE);
+			// On force le robot a explorer les liens dans les deux sens
+			//world.getNextZone(direction).setState(direction.reverse(), StateEnum.STATE_ACCESSIBLE);
 		}
 		else{
 			world.getCurrentZone().setState(direction, StateEnum.STATE_INACCESSIBLE);

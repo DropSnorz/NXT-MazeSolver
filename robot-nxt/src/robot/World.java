@@ -32,12 +32,14 @@ public class World {
 			Zone zone = new Zone(x,y);
 			zoneList.add(zone);
 			initZoneBorders(x,y);
-			System.out.println(zone);
+			System.out.println("Init:" + zone);
 
 
 			return zone;
 		}
 		else{
+			initZoneBorders(x,y);
+
 			return getZone(x,y);
 		}
 	}
@@ -104,12 +106,15 @@ public class World {
 		}
 		if(!containsZone(x - 1,y)){
 			zoneList.add(new Zone(x - 1,y));
+
 		}
 		if(!containsZone(x,y + 1)){
 			zoneList.add(new Zone(x,y + 1));
+
 		}
 		if(!containsZone(x,y - 1)){
 			zoneList.add(new Zone(x,y - 1));
+
 		}
 	}
 
@@ -117,6 +122,12 @@ public class World {
 		
 		int x = currentZone.getX();
 		int y = currentZone.getY();
+		
+		return getNextZone(x,y,direction);
+		
+	}
+	
+	public Zone getNextZone(int x, int y, Direction direction){
 		
 		if(direction == Direction.NORTH){
 			y = y - 1;
