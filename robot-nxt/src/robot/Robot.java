@@ -27,14 +27,17 @@ public class Robot {
 	
 	public void explore(){
 		
-		//Chemin disponible et zone non visitée, on avance
-		//Chemin disponible mais zone visité avec un lien inconnu menant sur une zone non visitée
+		//Chemin disponible et zone non visitï¿½e, on avance
+		//Chemin disponible mais zone visitï¿½ avec un lien inconnu menant sur une zone non visitï¿½e
 			// on tourne a droite
 		// on avance
+		
 		StateEnum state = world.getCurrentZone().getState(direction);
 		Zone currentZone = world.getCurrentZone();
 		Zone nextZone = world.getNextZone(direction);
+		
 		boolean scan = false;
+		
 		
 		if(state == StateEnum.STATE_UNKNOW){
 			scanContext();
@@ -43,26 +46,31 @@ public class Robot {
 
 		}
 		
+		
+		
 		if(state == StateEnum.STATE_INACCESSIBLE){
-			//Chemin bloqué, on tourne a droite;
+			//Chemin bloquï¿½, on tourne a droite;
 			turnRight();
 		}
+	
 		
 		else if (state == StateEnum.STATE_ACCESSIBLE && !world.hasBeenVisited(nextZone)){
 			//Chemin viable et prochaine zone iconnue, on continue (inutile?)
 			moveToTheNextZone();
 		}
 		
+		
 		else if (state == StateEnum.STATE_ACCESSIBLE && scan){
 			moveToTheNextZone();
 		}
 		
 		
+		
 		else if(state == StateEnum.STATE_ACCESSIBLE && 
 				world.hasBeenVisited(nextZone) &&
 				!currentZone.isFullyDiscovered()){
-			//Chemin viable, prochaine zone connue, zone courante non pleinement découverte.
-			//On tourne a droite à la recherche de nouveaux chemins.
+			//Chemin viable, prochaine zone connue, zone courante non pleinement dï¿½couverte.
+			//On tourne a droite ï¿½ la recherche de nouveaux chemins.
 			turnRight();
 		}		
 			
@@ -70,6 +78,8 @@ public class Robot {
 		else{
 			moveToTheNextZone();
 		}
+		
+		
 		
 	}
 	

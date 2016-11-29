@@ -7,24 +7,21 @@ import java.util.Set;
 
 public class World {
 
-	protected Set<Zone>zoneList;
+	protected List<Zone>zoneList;
 	
 	protected List<Zone>visitedZones;
 	protected Zone currentZone;
 
 	public World() {
 	
-		zoneList = new HashSet<Zone>();
+		zoneList = new ArrayList<Zone>();
 		visitedZones = new ArrayList<Zone>();
 		Zone initZone = new Zone(0,0);
 		currentZone = initZone;
 		zoneList.add(initZone);
 		visitedZones.add(initZone);
 		
-		zoneList.add(new Zone(0,-1));
-		zoneList.add(new Zone(1,0));
-		zoneList.add(new Zone(0,1));
-		zoneList.add(new Zone(-1,0));
+		initZoneBorders(0,0);
 	}
 	
 	public Zone getOrCreateZone(int x, int y){

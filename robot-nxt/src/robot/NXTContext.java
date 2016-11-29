@@ -3,6 +3,7 @@ package robot;
 import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
 
 public class NXTContext implements IContext {
@@ -18,13 +19,42 @@ public class NXTContext implements IContext {
 		l2 = new LightSensor(SensorPort.S2);
 		us = new UltrasonicSensor(SensorPort.S1);
 		
+		Motor.A.setSpeed(200);
+		Motor.C.setSpeed(200);
+		
 	}
 
 	@Override
 	public void reachNextZone() {
-		//TODO impl
+		
+		boolean blackline = false;
 		Motor.A.forward();
 		Motor.C.forward();
+		
+		while(!blackline){
+			
+			
+			//TODO align robot with black line
+			if(l4.getLightValue() < 30 && l2.getLightValue() < 30 ){
+				blackline = true;
+				Motor.A.stop();
+				Motor.C.stop();
+			}
+			
+		}
+		
+		
+		Motor.A.forward();
+		Motor.C.forward();
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Motor.A.stop();
+		Motor.C.stop();
+		
 		
 		
 	}
@@ -38,15 +68,27 @@ public class NXTContext implements IContext {
 
 	@Override
 	public void turnRight() {
-		Motor.C.rotate(600);
-		Motor.A.rotate(-600);
+		Motor.C.rotate(400);
+		Motor.A.rotate(-350);
 		
 	}
 
 	@Override
 	public int getFrontDistance() {
-		// TODO impl
-		return 0;
+		
+		int dest = us.getDistance();
+		System.out.println(dest);
+		if(dest < 20){
+			Sound.beep();
+			return 10;
+		}
+		else if (dest > 250){
+			return 1000;
+		}
+		else{
+			return 100;
+		}
+			
 	}
 
 }

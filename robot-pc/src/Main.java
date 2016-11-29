@@ -53,14 +53,17 @@ public static void main(String[] args) {
 
 
 
-
-
-
+		MazeBuilder builder3 =  new MazeBuilder();
+		builder3.addPath(0, 0, Direction.WEST);
+		builder3.addPath(0, 0, Direction.EAST);
+		builder3.addExit(-1, 0, Direction.EAST);
+		
+		World world3 = builder3.getWorld();
 
 		
 		
 		
-		MemoryContext context = new MemoryContext(world2);
+		MemoryContext context = new MemoryContext(world3);
 		robot.setContext(context);
 		int i = 100;
 		while(!robot.hasFindExit && i > 0){
