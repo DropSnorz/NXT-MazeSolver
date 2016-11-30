@@ -1,7 +1,10 @@
+import java.util.List;
+
 import robot.Direction;
 import robot.Robot;
 import robot.StateEnum;
 import robot.World;
+import robot.Zone;
 
 public class Main {
 
@@ -51,12 +54,24 @@ public static void main(String[] args) {
 		
 		World world2 = builder.getWorld();
 
-
+		
 
 		MazeBuilder builder3 =  new MazeBuilder();
-		builder3.addPath(0, 0, Direction.WEST);
-		builder3.addPath(0, 0, Direction.EAST);
-		builder3.addExit(-1, 0, Direction.EAST);
+		builder3.addPath(0, 0, Direction.SOUTH);
+		builder3.addPath(0, 1, Direction.SOUTH);
+		builder3.addPath(0, 2, Direction.WEST);
+		builder3.addPath(0, 2, Direction.EAST);
+		
+		builder3.addPath(-1, 2, Direction.NORTH);
+		builder3.addPath(-1, 1, Direction.NORTH);
+		
+		builder3.addPath(1, 2, Direction.WEST);
+		builder3.addPath(1, 2, Direction.SOUTH);
+		builder3.addExit(1, 3, Direction.SOUTH); //
+		
+		builder3.addPath(2, 2, Direction.NORTH);
+		builder3.addPath(2, 1, Direction.NORTH);
+		builder3.addPath(2, 0, Direction.WEST);
 		
 		World world3 = builder3.getWorld();
 
@@ -69,6 +84,13 @@ public static void main(String[] args) {
 		while(!robot.hasFindExit && i > 0){
 			robot.explore();
 			i = i -1;
+		}
+		
+		System.out.println("===========PATH==========");
+		List<Zone> path = robot.getPathFinder().findPath();
+		
+		for(Zone zone : path){
+			System.out.println(zone);
 		}
 	}
 }

@@ -4,25 +4,26 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.UltrasonicSensor;
+import robot.pathfinding.PathFinder;
 
 public class Robot {
 
 	protected String name;
 	protected Direction direction;
 	public boolean hasFindExit;
+	
 	protected IContext context;
+	protected PathFinder pathFinder;
 	
 	protected World world;
 	
 	public Robot(String name){
 		this.name = name;
 		direction = Direction.NORTH;
-		/*
-		l4 = new LightSensor(SensorPort.S4);
-		l2 = new LightSensor(SensorPort.S2);
-		us = new UltrasonicSensor(SensorPort.S1);
-		*/
+		
 		world = new World();
+		
+		pathFinder = new PathFinder(world);
 	}
 	
 	public void explore(){
@@ -31,15 +32,16 @@ public class Robot {
 		//Chemin disponible mais zone visit� avec un lien inconnu menant sur une zone non visit�e
 			// on tourne a droite
 		// on avance
-		
-		StateEnum state = world.getCurrentZone().getState(direction);
 		Zone currentZone = world.getCurrentZone();
+
+		StateEnum state = currentZone.getState(direction);
+		boolean scanned = currentZone.getIsScanned(direction);
 		Zone nextZone = world.getNextZone(direction);
 		
 		boolean scan = false;
 		
 		
-		if(state == StateEnum.STATE_UNKNOW){
+		if(state == StateEnum.STATE_UNKNOW || !scanned){
 			scanContext();
 			scan = true;
 			state = world.getCurrentZone().getState(direction);
@@ -47,12 +49,14 @@ public class Robot {
 		}
 		
 		
-		
 		if(state == StateEnum.STATE_INACCESSIBLE){
 			//Chemin bloqu�, on tourne a droite;
 			turnRight();
 		}
-	
+		
+		else if (state == StateEnum.STATE_EXIT){
+			//On ne fait plus rien, pour l'instant
+		}
 		
 		else if (state == StateEnum.STATE_ACCESSIBLE && !world.hasBeenVisited(nextZone)){
 			//Chemin viable et prochaine zone iconnue, on continue (inutile?)
@@ -104,33 +108,25 @@ public class Robot {
 		
 	}
 	
-	public boolean scanContext(){
+	public void scanContext(){
 		//TODO impl
 		int d = context.getFrontDistance();
 		boolean available;
 		if(d < 100){
-			available = false;
-		}
-		else{
-			available = true;
+			world.getCurrentZone().setStateFromScan(direction, StateEnum.STATE_INACCESSIBLE);
+			world.getNextZone(direction).setStateFromScan(direction.reverse(), StateEnum.STATE_INACCESSIBLE);
 		}
 		
-		if(d > 900){
+		else if(d > 900){
 			this.hasFindExit = true;
-		}
-		
-		if(available){
-			world.getCurrentZone().setState(direction, StateEnum.STATE_ACCESSIBLE);
-			// On force le robot a explorer les liens dans les deux sens
-			//world.getNextZone(direction).setState(direction.reverse(), StateEnum.STATE_ACCESSIBLE);
+			world.getCurrentZone().setStateFromScan(direction, StateEnum.STATE_EXIT);
 		}
 		else{
-			world.getCurrentZone().setState(direction, StateEnum.STATE_INACCESSIBLE);
-			world.getNextZone(direction).setState(direction.reverse(), StateEnum.STATE_INACCESSIBLE);
-
+			world.getCurrentZone().setStateFromScan(direction, StateEnum.STATE_ACCESSIBLE);
+			// On force le robot a explorer les liens dans les deux sens
+			world.getNextZone(direction).setState(direction.reverse(), StateEnum.STATE_ACCESSIBLE);
 		}
 		
-		return available;
 	}
 
 	public IContext getContext() {
@@ -139,6 +135,10 @@ public class Robot {
 
 	public void setContext(IContext context) {
 		this.context = context;
+	}
+	
+	public PathFinder getPathFinder(){
+		return pathFinder;
 	}
 	
 	
