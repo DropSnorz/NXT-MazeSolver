@@ -180,6 +180,28 @@ public class World {
 	public void setCurrentZone(Zone currentZone) {
 		this.currentZone = currentZone;
 	}
+	
+	public static Direction resolveDirection(int x1, int y1, int x2, int y2){
+		
+		if(x1 - x2 == -1){
+			return Direction.EAST;
+		}
+		else if (x1 - x2 == 1){
+			return Direction.WEST;
+		}
+		else{
+			if(y1 - y2 == -1){
+				return Direction.SOUTH;
+			}
+			else if(y1-y2 == 1){
+				return Direction.NORTH;
+			}
+			else{
+				System.out.println("Error, next zone only");
+				return null;
+			}
+		}
+	}
 
 	public static int translateX(int x, Direction direction){
 

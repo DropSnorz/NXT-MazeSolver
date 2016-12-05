@@ -92,5 +92,10 @@ public static void main(String[] args) {
 		for(Zone zone : path){
 			System.out.println(zone);
 		}
+		
+		System.out.println("===========Resolving Path==========");
+		
+		robot.resolvePath(path);
+
 	}
 }
