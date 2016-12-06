@@ -36,14 +36,14 @@ public class Robot {
 		// on avance
 		Zone currentZone = world.getCurrentZone();
 
-		StateEnum state = currentZone.getState(direction);
+		State state = currentZone.getState(direction);
 		boolean scanned = currentZone.getIsScanned(direction);
 		Zone nextZone = world.getNextZone(direction);
 
 		boolean scan = false;
 
 
-		if(state == StateEnum.STATE_UNKNOW || !scanned){
+		if(state == State.STATE_UNKNOW || !scanned){
 			scanContext();
 			scan = true;
 			state = world.getCurrentZone().getState(direction);
@@ -51,28 +51,28 @@ public class Robot {
 		}
 
 
-		if(state == StateEnum.STATE_INACCESSIBLE){
+		if(state == State.STATE_INACCESSIBLE){
 			//Chemin bloqu�, on tourne a droite;
 			turnRight();
 		}
 
-		else if (state == StateEnum.STATE_EXIT){
+		else if (state == State.STATE_EXIT){
 			//On ne fait plus rien, pour l'instant
 		}
 
-		else if (state == StateEnum.STATE_ACCESSIBLE && !world.hasBeenVisited(nextZone)){
+		else if (state == State.STATE_ACCESSIBLE && !world.hasBeenVisited(nextZone)){
 			//Chemin viable et prochaine zone iconnue, on continue (inutile?)
 			moveToTheNextZone();
 		}
 
 
-		else if (state == StateEnum.STATE_ACCESSIBLE && scan){
+		else if (state == State.STATE_ACCESSIBLE && scan){
 			moveToTheNextZone();
 		}
 
 
 
-		else if(state == StateEnum.STATE_ACCESSIBLE && 
+		else if(state == State.STATE_ACCESSIBLE && 
 				world.hasBeenVisited(nextZone) &&
 				!currentZone.isFullyDiscovered()){
 			//Chemin viable, prochaine zone connue, zone courante non pleinement d�couverte.
@@ -123,18 +123,18 @@ public class Robot {
 		int d = context.getFrontDistance();
 		boolean available;
 		if(d < 100){
-			world.getCurrentZone().setStateFromScan(direction, StateEnum.STATE_INACCESSIBLE);
-			world.getNextZone(direction).setStateFromScan(direction.reverse(), StateEnum.STATE_INACCESSIBLE);
+			world.getCurrentZone().setStateFromScan(direction, State.STATE_INACCESSIBLE);
+			world.getNextZone(direction).setStateFromScan(direction.reverse(), State.STATE_INACCESSIBLE);
 		}
 
 		else if(d > 900){
 			this.hasFindExit = true;
-			world.getCurrentZone().setStateFromScan(direction, StateEnum.STATE_EXIT);
+			world.getCurrentZone().setStateFromScan(direction, State.STATE_EXIT);
 		}
 		else{
-			world.getCurrentZone().setStateFromScan(direction, StateEnum.STATE_ACCESSIBLE);
+			world.getCurrentZone().setStateFromScan(direction, State.STATE_ACCESSIBLE);
 			// On force le robot a explorer les liens dans les deux sens
-			world.getNextZone(direction).setState(direction.reverse(), StateEnum.STATE_ACCESSIBLE);
+			world.getNextZone(direction).setState(direction.reverse(), State.STATE_ACCESSIBLE);
 		}
 
 	}

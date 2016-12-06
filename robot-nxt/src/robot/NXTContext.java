@@ -5,6 +5,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.Sound;
 import lejos.nxt.UltrasonicSensor;
+import lejos.robotics.navigation.DifferentialPilot;
 
 public class NXTContext implements IContext {
 	
@@ -13,6 +14,7 @@ public class NXTContext implements IContext {
 	protected LightSensor l2;
 	protected UltrasonicSensor us;
 	
+	protected DifferentialPilot pilot;
 	public NXTContext(){
 
 		l4 = new LightSensor(SensorPort.S4);
@@ -21,6 +23,11 @@ public class NXTContext implements IContext {
 		
 		Motor.A.setSpeed(200);
 		Motor.C.setSpeed(200);
+		
+		//TODO fix parameters
+		pilot = new DifferentialPilot(2.1f, 4.4f, Motor.A, Motor.C, true);  // parameters in inches
+		pilot.setRotateSpeed(30);  // cm per second
+		
 		
 	}
 
@@ -33,14 +40,12 @@ public class NXTContext implements IContext {
 		
 		while(!blackline){
 			
-			
 			//TODO align robot with black line
 			if(l4.getLightValue() < 30 && l2.getLightValue() < 30 ){
 				blackline = true;
 				Motor.A.stop();
 				Motor.C.stop();
 			}
-			
 		}
 		
 		
@@ -55,21 +60,32 @@ public class NXTContext implements IContext {
 		Motor.A.stop();
 		Motor.C.stop();
 		
+		// pilot.travel(X);
 		
 		
 	}
 
 	@Override
 	public void turnLeft() {
+		
+		pilot.rotate(-90);
+
+		/*
 		Motor.A.rotate(600);
 		Motor.C.rotate(-600);
+		
+		*/
 		
 	}
 
 	@Override
 	public void turnRight() {
+		
+		pilot.rotate(90);
+		/*
 		Motor.C.rotate(400);
 		Motor.A.rotate(-350);
+		*/
 		
 	}
 

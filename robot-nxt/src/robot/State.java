@@ -1,6 +1,6 @@
 package robot;
 
-public enum StateEnum {
+public enum State {
 	STATE_INACCESSIBLE,
 	STATE_ACCESSIBLE,
 	STATE_EXIT,

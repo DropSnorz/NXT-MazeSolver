@@ -148,7 +148,7 @@ public class World {
 		
 		Zone zone = getZone(x,y);
 		for(Direction direction : Direction.values()){
-			if(zone.getState(direction) == StateEnum.STATE_ACCESSIBLE){
+			if(zone.getState(direction) == State.STATE_ACCESSIBLE){
 				list.add(getZone(translateX(x,direction), translateY(y,direction)));
 			}
 		}

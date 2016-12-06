@@ -1,5 +1,6 @@
 package robot;
 
+import java.util.List;
 
 public class Main {
 
@@ -13,5 +14,9 @@ public class Main {
 			robot.explore();
 		}
 		
+		List<Zone> path = robot.getPathFinder().findPath();
+				
+		robot.resolvePath(path);
+
 	}
 }

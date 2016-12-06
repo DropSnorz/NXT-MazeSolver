@@ -11,20 +11,20 @@ public class Zone extends PathNode {
 	protected int y;
 	
 	public int cost;
-	protected Map<Direction, StateEnum> stateMap;
+	protected Map<Direction, State> stateMap;
 	protected Map<Direction, Boolean> scanMap;
 
 
 	public Zone(int x, int y) {
 		this.x = x;
 		this.y = y;
-		stateMap = new HashMap<Direction, StateEnum>();
+		stateMap = new HashMap<Direction, State>();
 		scanMap = new HashMap<Direction, Boolean>();
 
-		stateMap.put(Direction.NORTH, StateEnum.STATE_UNKNOW);
-		stateMap.put(Direction.SOUTH, StateEnum.STATE_UNKNOW);
-		stateMap.put(Direction.EAST, StateEnum.STATE_UNKNOW);
-		stateMap.put(Direction.WEST, StateEnum.STATE_UNKNOW);
+		stateMap.put(Direction.NORTH, State.STATE_UNKNOW);
+		stateMap.put(Direction.SOUTH, State.STATE_UNKNOW);
+		stateMap.put(Direction.EAST, State.STATE_UNKNOW);
+		stateMap.put(Direction.WEST, State.STATE_UNKNOW);
 		
 		scanMap.put(Direction.NORTH, false);
 		scanMap.put(Direction.SOUTH, false);
@@ -32,19 +32,19 @@ public class Zone extends PathNode {
 		scanMap.put(Direction.WEST, false);
 	}
 
-	public void setStateFromScan(Direction direction, StateEnum state){
+	public void setStateFromScan(Direction direction, State state){
 
 		stateMap.put(direction, state);
 		scanMap.put(direction, true);
 
 	}
 	
-	public void setState(Direction direction, StateEnum state){
+	public void setState(Direction direction, State state){
 
 		stateMap.put(direction, state);
 
 	}
-	public StateEnum getState(Direction direction){
+	public State getState(Direction direction){
 
 		return stateMap.get(direction);
 

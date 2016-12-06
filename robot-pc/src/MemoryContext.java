@@ -2,7 +2,7 @@
 
 import robot.Direction;
 import robot.IContext;
-import robot.StateEnum;
+import robot.State;
 import robot.World;
 import robot.Zone;
 
@@ -41,12 +41,12 @@ public class MemoryContext implements IContext {
 	public int getFrontDistance() {
 		
 		Zone currentZone = world.getCurrentZone();
-		StateEnum state = currentZone.getState(direction);
-		if (state == StateEnum.STATE_ACCESSIBLE){
+		State state = currentZone.getState(direction);
+		if (state == State.STATE_ACCESSIBLE){
 			System.out.println("Scan[" + currentZone + "] to " + direction.name()+ ": Accessible");
 			return 100;
 		}
-		else if (state == StateEnum.STATE_EXIT){
+		else if (state == State.STATE_EXIT){
 			System.out.println("Scan[" + currentZone + "] to " + direction.name()+ ": Exit");
 			return 1000;
 		}
