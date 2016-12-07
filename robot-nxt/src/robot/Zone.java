@@ -51,6 +51,7 @@ public class Zone extends PathNode {
 	}
 
 	public boolean isFullyDiscovered(){
+		/*
 
 		for(Map.Entry<Direction,Boolean > entry : scanMap.entrySet()) {
 			Boolean value = entry.getValue();
@@ -58,6 +59,31 @@ public class Zone extends PathNode {
 			if(value == false){
 				return false;
 			}
+		}
+		return true;
+		*/
+		
+		/*
+		for(Direction dir : scanMap.keySet()){
+			if (scanMap.get(dir) == false ){
+				return false;
+			}
+		}
+		*/
+		
+		//Robot seems to have troubles iterating over sets
+		
+		if(scanMap.get(Direction.NORTH) == false){
+			return false;
+		}
+		if(scanMap.get(Direction.EAST) == false){
+			return false;
+		}
+		if(scanMap.get(Direction.SOUTH) == false){
+			return false;
+		}
+		if(scanMap.get(Direction.WEST) == false){
+			return false;
 		}
 		return true;
 	}
@@ -84,6 +110,7 @@ public class Zone extends PathNode {
 		this.y = y;
 	}
 
+	/*
 	public boolean equals(Object o){
 
 		if(o instanceof Zone){
@@ -97,6 +124,8 @@ public class Zone extends PathNode {
 			return super.equals(o);
 		}
 	}
+	
+	*/
 	
 	
 	public String toString(){

@@ -69,6 +69,11 @@ public class PathFinder {
 
 		Zone current = goal;
 		boolean done = false;
+		
+		//Start equals goal, no path required
+		if(start == goal){
+			return path;
+		}
 		while (!done) {
 			path.add(0,current);
 

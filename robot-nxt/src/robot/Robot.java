@@ -12,7 +12,7 @@ public class Robot {
 
 	protected String name;
 	protected Direction direction;
-	public boolean hasFindExit;
+	public boolean hasFindExit = false;
 
 	protected IContext context;
 	protected PathFinder pathFinder;
@@ -84,8 +84,6 @@ public class Robot {
 		else{
 			moveToTheNextZone();
 		}
-
-
 
 	}
 

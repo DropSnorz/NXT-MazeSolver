@@ -8,38 +8,39 @@ import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class NXTContext implements IContext {
-	
-		
+
+
 	protected LightSensor l4;
 	protected LightSensor l2;
 	protected UltrasonicSensor us;
-	
+
 	protected DifferentialPilot pilot;
 	public NXTContext(){
 
 		l4 = new LightSensor(SensorPort.S4);
 		l2 = new LightSensor(SensorPort.S2);
 		us = new UltrasonicSensor(SensorPort.S1);
-		
-		Motor.A.setSpeed(200);
-		Motor.C.setSpeed(200);
-		
+
+		Motor.A.setSpeed(400);
+		Motor.C.setSpeed(400);
+
 		//TODO fix parameters
-		pilot = new DifferentialPilot(2.1f, 4.4f, Motor.A, Motor.C, true);  // parameters in inches
-		pilot.setRotateSpeed(30);  // cm per second
-		
-		
+		pilot = new DifferentialPilot(1.18f, 4.4f, Motor.A, Motor.C, true);  // parameters in inches
+		pilot.setRotateSpeed(50);  // cm per second
+
+		//15cm: 5.9 inches
+		//11cm: 4.33 inches
 	}
 
 	@Override
 	public void reachNextZone() {
-		
+
 		boolean blackline = false;
 		Motor.A.forward();
 		Motor.C.forward();
-		
+
 		while(!blackline){
-			
+
 			//TODO align robot with black line
 			if(l4.getLightValue() < 30 && l2.getLightValue() < 30 ){
 				blackline = true;
@@ -47,51 +48,52 @@ public class NXTContext implements IContext {
 				Motor.C.stop();
 			}
 		}
-		
-		
+
+
+
 		Motor.A.forward();
 		Motor.C.forward();
 		try {
-			Thread.sleep(4000);
+			Thread.sleep(3000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		Motor.A.stop();
 		Motor.C.stop();
-		
-		// pilot.travel(X);
-		
-		
+
+		//pilot.travel(20, false);
+
 	}
 
 	@Override
 	public void turnLeft() {
-		
-		pilot.rotate(-90);
 
+		pilot.rotate(90);
+		while(pilot.isMoving())Thread.yield();
 		/*
 		Motor.A.rotate(600);
 		Motor.C.rotate(-600);
-		
-		*/
-		
+
+		 */
+
 	}
 
 	@Override
 	public void turnRight() {
-		
-		pilot.rotate(90);
+
+		pilot.rotate(-90);
+		while(pilot.isMoving())Thread.yield();
 		/*
 		Motor.C.rotate(400);
 		Motor.A.rotate(-350);
-		*/
-		
+		 */
+
 	}
 
 	@Override
 	public int getFrontDistance() {
-		
+
 		int dest = us.getDistance();
 		System.out.println(dest);
 		if(dest < 20){
@@ -104,7 +106,6 @@ public class NXTContext implements IContext {
 		else{
 			return 100;
 		}
-			
-	}
 
+	}
 }

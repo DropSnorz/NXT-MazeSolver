@@ -12,10 +12,10 @@ public class Main {
 		
 		while(!robot.hasFindExit){
 			robot.explore();
+				
 		}
 		
-		List<Zone> path = robot.getPathFinder().findPath();
-				
+		List<Zone> path = robot.getPathFinder().findPath();	
 		robot.resolvePath(path);
 
 	}

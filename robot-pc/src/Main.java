@@ -76,6 +76,11 @@ public static void main(String[] args) {
 		World world3 = builder3.getWorld();
 
 		
+		//Robot in front of exit
+		MazeBuilder builder4 =  new MazeBuilder();
+		builder4.addExit(0, 0, Direction.NORTH);
+		World world4 = builder4.getWorld();
+
 		
 		
 		MemoryContext context = new MemoryContext(world3);
