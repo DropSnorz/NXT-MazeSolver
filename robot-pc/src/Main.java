@@ -80,10 +80,19 @@ public static void main(String[] args) {
 		MazeBuilder builder4 =  new MazeBuilder();
 		builder4.addExit(0, 0, Direction.NORTH);
 		World world4 = builder4.getWorld();
+		
+		MazeBuilder builder5 = new MazeBuilder();
+		builder5.addPath(0, 0, Direction.NORTH);
+		builder5.addPath(0, 0, Direction.EAST);
+		builder5.addPath(1, -1, Direction.NORTH);
+		builder5.addExit(1, -2, Direction.WEST);
+
+		World world5 = builder5.getWorld();
+		
 
 		
 		
-		MemoryContext context = new MemoryContext(world3);
+		MemoryContext context = new MemoryContext(world5);
 		robot.setContext(context);
 		int i = 100;
 		while(!robot.hasFindExit && i > 0){

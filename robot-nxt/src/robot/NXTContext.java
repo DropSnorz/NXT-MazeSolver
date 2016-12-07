@@ -21,13 +21,13 @@ public class NXTContext implements IContext {
 		l2 = new LightSensor(SensorPort.S2);
 		us = new UltrasonicSensor(SensorPort.S1);
 
-		Motor.A.setSpeed(400);
-		Motor.C.setSpeed(400);
+		Motor.A.setSpeed(200);
+		Motor.C.setSpeed(200);
 
 		//TODO fix parameters
-		pilot = new DifferentialPilot(1.18f, 4.4f, Motor.A, Motor.C, true);  // parameters in inches
-		pilot.setRotateSpeed(50);  // cm per second
-
+		pilot = new DifferentialPilot(1.18f, 4.72f, Motor.A, Motor.C, true);  // parameters in inches
+		pilot.setRotateSpeed(80);  // cm per second
+		pilot.setTravelSpeed(4);
 		//15cm: 5.9 inches
 		//11cm: 4.33 inches
 	}
@@ -49,7 +49,7 @@ public class NXTContext implements IContext {
 			}
 		}
 
-
+		/*
 
 		Motor.A.forward();
 		Motor.C.forward();
@@ -62,7 +62,8 @@ public class NXTContext implements IContext {
 		Motor.A.stop();
 		Motor.C.stop();
 
-		//pilot.travel(20, false);
+		*/
+		pilot.travel(-10, false);
 
 	}
 
