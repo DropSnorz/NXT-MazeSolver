@@ -84,6 +84,7 @@ public static void main(String[] args) {
 		MazeBuilder builder5 = new MazeBuilder();
 		builder5.addPath(0, 0, Direction.NORTH);
 		builder5.addPath(0, 0, Direction.EAST);
+		builder5.addPath(1, -1, Direction.SOUTH);
 		builder5.addPath(1, -1, Direction.NORTH);
 		builder5.addExit(1, -2, Direction.WEST);
 
@@ -92,7 +93,7 @@ public static void main(String[] args) {
 
 		
 		
-		MemoryContext context = new MemoryContext(world5);
+		MemoryContext context = new MemoryContext(world3);
 		robot.setContext(context);
 		int i = 100;
 		while(!robot.hasFindExit && i > 0){

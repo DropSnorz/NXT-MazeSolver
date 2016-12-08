@@ -51,7 +51,7 @@ public class Robot {
 		}
 
 
-		if(state == State.STATE_INACCESSIBLE){
+		if(state == State.STATE_INACCESSIBLE || state == State.STATE_ACCESSIBLE_DEAD){
 			//Chemin bloqu�, on tourne a droite;
 			turnRight();
 		}
@@ -69,7 +69,13 @@ public class Robot {
 		else if (state == State.STATE_ACCESSIBLE && scan){
 			moveToTheNextZone();
 		}
-
+		
+		else if(state == State.STATE_ACCESSIBLE && nextZone.isDeadZone()){
+			//TODO test validity
+			System.out.println("dead");
+			currentZone.setState(direction, State.STATE_ACCESSIBLE_DEAD);
+			turnRight();
+		}
 
 
 		else if(state == State.STATE_ACCESSIBLE && 

@@ -9,7 +9,8 @@ public class Zone extends PathNode {
 
 	protected int x;
 	protected int y;
-	
+	protected boolean excluded = false;
+
 	public int cost;
 	protected Map<Direction, State> stateMap;
 	protected Map<Direction, Boolean> scanMap;
@@ -25,7 +26,7 @@ public class Zone extends PathNode {
 		stateMap.put(Direction.SOUTH, State.STATE_UNKNOW);
 		stateMap.put(Direction.EAST, State.STATE_UNKNOW);
 		stateMap.put(Direction.WEST, State.STATE_UNKNOW);
-		
+
 		scanMap.put(Direction.NORTH, false);
 		scanMap.put(Direction.SOUTH, false);
 		scanMap.put(Direction.EAST, false);
@@ -38,7 +39,7 @@ public class Zone extends PathNode {
 		scanMap.put(direction, true);
 
 	}
-	
+
 	public void setState(Direction direction, State state){
 
 		stateMap.put(direction, state);
@@ -51,28 +52,9 @@ public class Zone extends PathNode {
 	}
 
 	public boolean isFullyDiscovered(){
-		/*
 
-		for(Map.Entry<Direction,Boolean > entry : scanMap.entrySet()) {
-			Boolean value = entry.getValue();
-
-			if(value == false){
-				return false;
-			}
-		}
-		return true;
-		*/
-		
-		/*
-		for(Direction dir : scanMap.keySet()){
-			if (scanMap.get(dir) == false ){
-				return false;
-			}
-		}
-		*/
-		
 		//Robot seems to have troubles iterating over sets
-		
+
 		if(scanMap.get(Direction.NORTH) == false){
 			return false;
 		}
@@ -87,12 +69,40 @@ public class Zone extends PathNode {
 		}
 		return true;
 	}
-	
+
+	public boolean isDeadZone(){
+
+		//Robot seems to have troubles iterating over sets
+
+		int blockedZones = 0;
+		if(stateMap.get(Direction.NORTH) == State.STATE_INACCESSIBLE
+				|| stateMap.get(Direction.NORTH) == State.STATE_ACCESSIBLE_DEAD ){
+			blockedZones += 1;
+		}
+		if(stateMap.get(Direction.EAST) == State.STATE_INACCESSIBLE
+				|| stateMap.get(Direction.EAST) == State.STATE_ACCESSIBLE_DEAD ){
+			blockedZones += 1;
+		}
+		if(stateMap.get(Direction.SOUTH) == State.STATE_INACCESSIBLE
+				|| stateMap.get(Direction.SOUTH) == State.STATE_ACCESSIBLE_DEAD ){
+			blockedZones += 1;
+		}
+		if(stateMap.get(Direction.WEST) == State.STATE_INACCESSIBLE
+				|| stateMap.get(Direction.WEST) == State.STATE_ACCESSIBLE_DEAD ){
+			blockedZones += 1;
+		}
+		
+		if(blockedZones >= 3){
+			return true;
+		}
+		return false;
+
+	}
 	public boolean getIsScanned(Direction direction) {
 
 		return scanMap.get(direction);
 	}
-	
+
 
 	public int getX() {
 		return x;
@@ -109,6 +119,16 @@ public class Zone extends PathNode {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+
+	public boolean isExcluded() {
+		return excluded;
+	}
+
+	public void setExcluded(boolean excluded) {
+		this.excluded = excluded;
+	}
+	
 
 	/*
 	public boolean equals(Object o){
@@ -124,10 +144,10 @@ public class Zone extends PathNode {
 			return super.equals(o);
 		}
 	}
-	
-	*/
-	
-	
+
+	 */
+
+
 	public String toString(){
 		return "Zone: " + x + ", " + y;
 	}
