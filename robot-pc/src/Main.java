@@ -90,13 +90,14 @@ public static void main(String[] args) {
 
 		World world5 = builder5.getWorld();
 		
-
+		MazeBuilder builder6 = new MazeBuilder();
+		World world6 = builder6.getWorld();
 		
 		
-		MemoryContext context = new MemoryContext(world3);
+		MemoryContext context = new MemoryContext(world6);
 		robot.setContext(context);
 		int i = 100;
-		while(!robot.hasFindExit && i > 0){
+		while(!robot.hasFindExit && robot.exploring && i > 0){
 			robot.explore();
 			i = i -1;
 		}
@@ -104,7 +105,7 @@ public static void main(String[] args) {
 		System.out.println("===========PATH==========");
 		List<Zone> path = robot.getPathFinder().findPath();
 		
-		for(Zone zone : path){
+		for(Zone zone : path){ 
 			System.out.println(zone);
 		}
 		

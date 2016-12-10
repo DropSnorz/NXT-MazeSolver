@@ -4,19 +4,21 @@ import java.util.List;
 
 public class Main {
 
-	
+
 	public static void main(String[] args) {
-		
+
 		Robot robot = new Robot("hello");
 		robot.setContext(new NXTContext());
-		
-		while(!robot.hasFindExit){
+
+		while(!robot.hasFindExit && robot.exploring){
 			robot.explore();
-				
+
 		}
-		
-		List<Zone> path = robot.getPathFinder().findPath();	
-		robot.resolvePath(path);
+
+		if(robot.hasFindExit){
+			List<Zone> path = robot.getPathFinder().findPath();	
+			robot.resolvePath(path);
+		}
 
 	}
 }

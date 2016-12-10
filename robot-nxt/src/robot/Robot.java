@@ -13,6 +13,8 @@ public class Robot {
 	protected String name;
 	protected Direction direction;
 	public boolean hasFindExit = false;
+	public boolean exploring = true;
+
 
 	protected IContext context;
 	protected PathFinder pathFinder;
@@ -53,7 +55,13 @@ public class Robot {
 
 		if(state == State.STATE_INACCESSIBLE || state == State.STATE_ACCESSIBLE_DEAD){
 			//Chemin bloqu�, on tourne a droite;
-			turnRight();
+			if(currentZone.isBlockedZone()){
+				exploring = false;
+				System.out.println("I'm blocked");
+			}
+			else{
+				turnRight();
+			}
 		}
 
 		else if (state == State.STATE_EXIT){
@@ -69,7 +77,7 @@ public class Robot {
 		else if (state == State.STATE_ACCESSIBLE && scan){
 			moveToTheNextZone();
 		}
-		
+
 		else if(state == State.STATE_ACCESSIBLE && nextZone.isDeadZone()){
 			//TODO test validity
 			System.out.println("dead");

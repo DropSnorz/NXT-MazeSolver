@@ -73,7 +73,27 @@ public class Zone extends PathNode {
 	public boolean isDeadZone(){
 
 		//Robot seems to have troubles iterating over sets
+		
+		if(getCountBlockedZones() >= 3){
+			return true;
+		}
+		return false;
 
+	}
+	
+	public boolean isBlockedZone(){
+
+		//Robot seems to have troubles iterating over sets
+		
+		if(getCountBlockedZones() >= 4){
+			return true;
+		}
+		return false;
+
+	}
+	
+	
+	public int getCountBlockedZones(){
 		int blockedZones = 0;
 		if(stateMap.get(Direction.NORTH) == State.STATE_INACCESSIBLE
 				|| stateMap.get(Direction.NORTH) == State.STATE_ACCESSIBLE_DEAD ){
@@ -92,11 +112,7 @@ public class Zone extends PathNode {
 			blockedZones += 1;
 		}
 		
-		if(blockedZones >= 3){
-			return true;
-		}
-		return false;
-
+		return blockedZones;
 	}
 	public boolean getIsScanned(Direction direction) {
 
