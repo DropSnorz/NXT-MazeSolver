@@ -3,7 +3,7 @@ package robot.pathfinding;
 public abstract class PathNode {
 
 	PathNode previous;
-	int hCost;
+	int hCost; 
 	int fCost;
 	int gCost;
 	

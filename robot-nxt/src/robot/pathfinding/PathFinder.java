@@ -12,6 +12,7 @@ public class PathFinder {
 
 	protected List<Zone> open;
 	protected List<Zone> close;
+	protected boolean useHeurisitcs = true;
 
 	protected World world;
 
@@ -31,7 +32,6 @@ public class PathFinder {
 		while(!done){
 
 			currentNode = getLowestCostInOpen();
-
 			close.add(currentNode);
 			open.remove(currentNode);
 
@@ -45,7 +45,12 @@ public class PathFinder {
 				if(!close.contains(neighboor)){
 					if (!open.contains(neighboor)) { 
 						neighboor.setPrevious(currentNode); 
-						neighboor.sethCost(1); 
+						if(useHeurisitcs){
+							neighboor.sethCost(generatehCost(currentNode, neighboor)); 
+						}
+						else{
+							neighboor.sethCost(0); 
+						}
 						neighboor.setgCost(currentNode); 
 						open.add(neighboor); 
 					}
@@ -95,5 +100,26 @@ public class PathFinder {
 			}
 		}
 		return current;
+	}
+	
+	/**
+	 * Generate heuristic cost for two adjacent nodes
+	 * 
+	 * Return positive cost if next zone is more away from (0,0) than current Zone
+	 * @param current
+	 * @param dest
+	 * @return cost
+	 */
+	private int generatehCost(Zone current, Zone dest){
+		
+		if(Math.abs(current.getX()) - Math.abs(dest.getX()) >= 1){
+			return 0;
+		}
+		if(Math.abs(current.getY()) - Math.abs(dest.getY()) >= 1){
+			return 0;
+		}
+		
+		return 1;
+		
 	}
 }

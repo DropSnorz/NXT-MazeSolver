@@ -81,6 +81,7 @@ public static void main(String[] args) {
 		builder4.addExit(0, 0, Direction.NORTH);
 		World world4 = builder4.getWorld();
 		
+		// G Maze
 		MazeBuilder builder5 = new MazeBuilder();
 		builder5.addPath(0, 0, Direction.NORTH);
 		builder5.addPath(0, 0, Direction.EAST);
@@ -94,7 +95,7 @@ public static void main(String[] args) {
 		World world6 = builder6.getWorld();
 		
 		
-		MemoryContext context = new MemoryContext(world6);
+		MemoryContext context = new MemoryContext(world3);
 		robot.setContext(context);
 		int i = 100;
 		while(!robot.hasFindExit && robot.exploring && i > 0){
