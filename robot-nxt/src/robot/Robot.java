@@ -98,6 +98,8 @@ public class Robot {
 		else{
 			moveToTheNextZone();
 		}
+		
+		
 
 	}
 
@@ -106,6 +108,11 @@ public class Robot {
 
 		context.reachNextZone();
 		world.reachNextZone(direction);
+		
+		if(world.isTrap()){
+			System.out.println("Trap detected");
+			exploring = false;
+		}
 
 	}
 

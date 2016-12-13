@@ -203,6 +203,16 @@ public class World {
 			}
 		}
 	}
+	
+	public boolean isTrap(){
+		
+		for(Zone zone : visitedZones){
+			if(!zone.isFullyDiscovered()){
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public static int translateX(int x, Direction direction){
 
