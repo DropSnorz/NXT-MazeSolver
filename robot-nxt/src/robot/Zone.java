@@ -10,11 +10,10 @@ public class Zone extends PathNode {
 	protected int x;
 	protected int y;
 	protected boolean excluded = false;
+	//protected Zone lastNextZone;
 
-	public int cost;
 	protected Map<Direction, State> stateMap;
 	protected Map<Direction, Boolean> scanMap;
-
 
 	public Zone(int x, int y) {
 		this.x = x;
@@ -54,6 +53,7 @@ public class Zone extends PathNode {
 	public boolean isFullyDiscovered(){
 
 		//Robot seems to have troubles iterating over sets
+		//SO we write all cases
 
 		if(scanMap.get(Direction.NORTH) == false){
 			return false;
@@ -71,8 +71,6 @@ public class Zone extends PathNode {
 	}
 
 	public boolean isDeadZone(){
-
-		//Robot seems to have troubles iterating over sets
 		
 		if(getCountBlockedZones() >= 3){
 			return true;
@@ -82,8 +80,6 @@ public class Zone extends PathNode {
 	}
 	
 	public boolean isBlockedZone(){
-
-		//Robot seems to have troubles iterating over sets
 		
 		if(getCountBlockedZones() >= 4){
 			return true;
@@ -94,6 +90,10 @@ public class Zone extends PathNode {
 	
 	
 	public int getCountBlockedZones(){
+		
+		//NXT seems to have trouble iterating over sets of keys
+		//So we write all the cases
+		
 		int blockedZones = 0;
 		if(stateMap.get(Direction.NORTH) == State.STATE_INACCESSIBLE
 				|| stateMap.get(Direction.NORTH) == State.STATE_ACCESSIBLE_DEAD ){
@@ -144,25 +144,6 @@ public class Zone extends PathNode {
 	public void setExcluded(boolean excluded) {
 		this.excluded = excluded;
 	}
-	
-
-	/*
-	public boolean equals(Object o){
-
-		if(o instanceof Zone){
-			Zone zone = (Zone)o;
-			if(this.x == zone.getX() && this.y == zone.getY()){
-				return true;
-			}
-			return false;
-		}
-		else{
-			return super.equals(o);
-		}
-	}
-
-	 */
-
 
 	public String toString(){
 		return "Zone: " + x + ", " + y;

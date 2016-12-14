@@ -24,18 +24,18 @@ public class Main {
 
 		.addPath(1, 2, Direction.WEST)
 		.addPath(1, 2, Direction.SOUTH)
-		.addExit(1, 3, Direction.SOUTH)
+		.addPath(1, 2, Direction.SOUTH)
 
 		.addPath(2, 2, Direction.NORTH)
-		.addPath(2, 1, Direction.NORTH)
-		.addPath(2, 0, Direction.WEST);
-
+		.addExit(2, 2, Direction.SOUTH)
+		.addPath(2, 2, Direction.WEST)
+		.addPath(2, 1, Direction.NORTH);
 		World example = builder.getWorld();
 
 
 		MemoryContext context = new MemoryContext(example);
 		robot.setContext(context);
-		int i = 100;
+		int i = 200;
 		while(!robot.hasFindExit && robot.exploring && i > 0){
 			robot.explore();
 			i = i -1;

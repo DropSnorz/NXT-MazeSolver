@@ -8,6 +8,13 @@ import java.util.Queue;
 import robot.World;
 import robot.Zone;
 
+/**
+ * PathFinder Class
+ * Provide A* implementation to find path between two zones
+ * 
+ * Highly inspired frm work by Tim Coen
+ * http://software-talk.org/blog/2012/01/a-star-java/
+ */
 public class PathFinder {
 
 	protected List<Zone> open;
@@ -20,6 +27,12 @@ public class PathFinder {
 		this.world = world;
 	}
 
+	/**
+	 * Run A* on the given world
+	 * Return shortest path to origin node (0,0)
+	 * @return Ordered list with zones from current to origin point
+	 * or empty list if no path has been found
+	 */
 	public List<Zone> findPath(){
 
 		open = new LinkedList<Zone>();
@@ -35,28 +48,34 @@ public class PathFinder {
 			close.add(currentNode);
 			open.remove(currentNode);
 
-			//Init zone found
+			//Origin zone found
 			if(currentNode.getX() == 0 && currentNode.getY() == 0){
 				System.out.println("Path finded");
 				return generatePath(firstNode,currentNode);
 			}
 
-			for (Zone neighboor : world.getAccessibleNeighboorZones(currentNode.getX(), currentNode.getY())){
-				if(!close.contains(neighboor)){
-					if (!open.contains(neighboor)) { 
-						neighboor.setPrevious(currentNode); 
+			//For all neighbors of the current node
+			for (Zone neighbor : world.getAccessibleNeighborZones(currentNode.getX(), currentNode.getY())){
+				if(!close.contains(neighbor)){
+					//If neighbor is not in open list (and not in closed)
+					if (!open.contains(neighbor)) { 
+						//Init costs
+						neighbor.setPrevious(currentNode); 
 						if(useHeurisitcs){
-							neighboor.sethCost(generatehCost(currentNode, neighboor)); 
+							neighbor.sethCost(generatehCost(currentNode, neighbor)); 
 						}
 						else{
-							neighboor.sethCost(0); 
+							neighbor.sethCost(0); 
 						}
-						neighboor.setgCost(currentNode); 
-						open.add(neighboor); 
+						neighbor.setgCost(currentNode); 
+						//Add neighbor to open list
+						open.add(neighbor); 
 					}
-					else if(neighboor.getgCost() > neighboor.calculategCosts(currentNode)) { // costs from current node are cheaper than previous costs
-						neighboor.setPrevious(currentNode); 
-						neighboor.setgCost(currentNode); 
+					//If neighbor is in open list (and not in closed) and costs are better than previous
+					else if(neighbor.getgCost() > neighbor.calculategCosts(currentNode)) { // costs from current node are cheaper than previous costs
+						//Update previous and cost
+						neighbor.setPrevious(currentNode); 
+						neighbor.setgCost(currentNode); 
 					}
 
 				}   
@@ -68,6 +87,12 @@ public class PathFinder {
 		return null;
 	}
 
+	/**
+	 * Generate full path from A* results
+	 * @param start Current zone
+	 * @param goal Origine zone
+	 * @return Ordered list with zones from current to origin point
+	 */
 	private List<Zone> generatePath(Zone start, Zone goal) {
 
 		LinkedList<Zone> path = new LinkedList<Zone>();
@@ -106,6 +131,7 @@ public class PathFinder {
 	 * Generate heuristic cost for two adjacent nodes
 	 * 
 	 * Return positive cost if next zone is more away from (0,0) than current Zone
+	 * This only works for neighbors zones
 	 * @param current
 	 * @param dest
 	 * @return cost
@@ -120,6 +146,5 @@ public class PathFinder {
 		}
 		
 		return 1;
-		
 	}
 }

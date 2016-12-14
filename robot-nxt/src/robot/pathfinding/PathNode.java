@@ -3,8 +3,9 @@ package robot.pathfinding;
 public abstract class PathNode {
 
 	PathNode previous;
+	//Heuristic cost
 	int hCost; 
-	int fCost;
+	//Graph cost
 	int gCost;
 	
     public int calculategCosts(PathNode previousNode) {
@@ -28,9 +29,7 @@ public abstract class PathNode {
 	public int getfCost() {
 		  return gCost + hCost;
 	}
-	public void setfCost(int fCost) {
-		this.fCost = fCost;
-	}
+	
 	public int getgCost() {
 		return gCost;
 	}

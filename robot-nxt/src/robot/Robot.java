@@ -15,7 +15,6 @@ public class Robot {
 	public boolean hasFindExit = false;
 	public boolean exploring = true;
 
-
 	protected IContext context;
 	protected PathFinder pathFinder;
 
@@ -24,18 +23,13 @@ public class Robot {
 	public Robot(String name){
 		this.name = name;
 		direction = Direction.NORTH;
-
 		world = new World();
-
 		pathFinder = new PathFinder(world);
+		
 	}
 
 	public void explore(){
 
-		//Chemin disponible et zone non visit�e, on avance
-		//Chemin disponible mais zone visit� avec un lien inconnu menant sur une zone non visit�e
-		// on tourne a droite
-		// on avance
 		Zone currentZone = world.getCurrentZone();
 
 		State state = currentZone.getState(direction);
@@ -44,7 +38,6 @@ public class Robot {
 
 		boolean scan = false;
 
-
 		if(state == State.STATE_UNKNOW || !scanned){
 			scanContext();
 			scan = true;
@@ -52,9 +45,8 @@ public class Robot {
 
 		}
 
-
 		if(state == State.STATE_INACCESSIBLE || state == State.STATE_ACCESSIBLE_DEAD){
-			//Chemin bloqu�, on tourne a droite;
+			//Chemin bloqué, on tourne a droite;
 			if(currentZone.isBlockedZone()){
 				exploring = false;
 				System.out.println("I'm blocked");
@@ -73,34 +65,29 @@ public class Robot {
 			moveToTheNextZone();
 		}
 
-
 		else if (state == State.STATE_ACCESSIBLE && scan){
 			moveToTheNextZone();
 		}
 
 		else if(state == State.STATE_ACCESSIBLE && nextZone.isDeadZone()){
 			//TODO test validity
-			System.out.println("dead");
+			System.out.println("dead: "+nextZone);
 			currentZone.setState(direction, State.STATE_ACCESSIBLE_DEAD);
 			turnRight();
 		}
 
-
 		else if(state == State.STATE_ACCESSIBLE && 
 				world.hasBeenVisited(nextZone) &&
 				!currentZone.isFullyDiscovered()){
-			//Chemin viable, prochaine zone connue, zone courante non pleinement d�couverte.
+			//Chemin viable, prochaine zone connue, zone courante non pleinement découverte.
 			//On tourne a droite � la recherche de nouveaux chemins.
 			turnRight();
 		}		
-
 
 		else{
 			moveToTheNextZone();
 		}
 		
-		
-
 	}
 
 	public void moveToTheNextZone(){
@@ -130,43 +117,45 @@ public class Robot {
 	}
 
 	public void halfTurn(){
-		//TODO impl real half turn
+		
 		context.turnRight();
 		context.turnRight();
-
 		direction = direction.reverse();
 	}
 
 	public void scanContext(){
-		//TODO impl
+		
 		int d = context.getFrontDistance();
 		boolean available;
 		if(d < 100){
 			world.getCurrentZone().setStateFromScan(direction, State.STATE_INACCESSIBLE);
 			world.getNextZone(direction).setStateFromScan(direction.reverse(), State.STATE_INACCESSIBLE);
 		}
-
+		
 		else if(d > 900){
 			this.hasFindExit = true;
 			world.getCurrentZone().setStateFromScan(direction, State.STATE_EXIT);
 		}
+		
 		else{
 			world.getCurrentZone().setStateFromScan(direction, State.STATE_ACCESSIBLE);
-			// On force le robot a explorer les liens dans les deux sens
 			world.getNextZone(direction).setState(direction.reverse(), State.STATE_ACCESSIBLE);
 		}
 
 	}
 
+	/**
+	 * Compute actions to travel from current zone to all
+	 * zones on the given list
+	 * @param path Ordered zone list
+	 */
 	public void resolvePath(List<Zone> path){
 
 		for(int i =0; i < path.size(); i++){
 
 			Zone current = world.getCurrentZone();
 			Zone next = path.get(i);
-
 			Direction nextDir = World.resolveDirection(current.getX(), current.getY(), next.getX(), next.getY());
-
 
 			if(direction != nextDir){
 				if (direction.next() == nextDir){
@@ -179,12 +168,8 @@ public class Robot {
 					halfTurn();
 				}
 			}
-
 			moveToTheNextZone();
-
-
 		}
-
 	}
 
 	public IContext getContext() {
@@ -198,6 +183,5 @@ public class Robot {
 	public PathFinder getPathFinder(){
 		return pathFinder;
 	}
-
 
 }

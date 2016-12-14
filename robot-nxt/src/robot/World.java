@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Maze and context representation
+ * @author Arthur
+ *
+ */
 public class World {
 
 	protected List<Zone>zoneList;
@@ -31,7 +36,6 @@ public class World {
 			initZoneBorders(x,y);
 			System.out.println("Init:" + zone);
 
-
 			return zone;
 		}
 		else{
@@ -40,7 +44,12 @@ public class World {
 			return getZone(x,y);
 		}
 	}
-
+	
+	/**
+	 * Update maze to reach the given direction
+	 * @param direction
+	 * @return reached zone
+	 */
 	public Zone reachNextZone(Direction direction){
 
 		int x = currentZone.getX();
@@ -64,11 +73,12 @@ public class World {
 			zone = new Zone(x,y);
 			zoneList.add(zone);
 
-		}else{
+		}
+		else{
 			zone = getZone(x,y);
 		}
+		
 		initZoneBorders(x,y);
-
 
 		if(!hasBeenVisited(zone)){
 			visitedZones.add(zone);
@@ -77,6 +87,12 @@ public class World {
 		return zone;
 	}
 
+	/**
+	 * Check if the given coordinate are initialized
+	 * @param x
+	 * @param y
+	 * @return Return true if zone exist for the given point
+	 */
 	public boolean containsZone(int x, int y){
 
 		for(Zone zone: zoneList){
@@ -87,6 +103,12 @@ public class World {
 		return false;
 	}
 
+	/**
+	 * Retrieve zone at the given coordinates
+	 * @param x
+	 * @param y
+	 * @return Zone
+	 */
 	public Zone getZone(int x, int y){
 		for(Zone zone: zoneList){
 			if(zone.getX() == x && zone.getY() == y){
@@ -96,6 +118,11 @@ public class World {
 		return null;
 	}
 
+	/**
+	 * Initialize all neighbors of the given coordinate
+	 * @param x
+	 * @param y
+	 */
 	protected void initZoneBorders(int x, int y){
 
 		if(!containsZone(x + 1,y)){
@@ -111,10 +138,14 @@ public class World {
 		}
 		if(!containsZone(x,y - 1)){
 			zoneList.add(new Zone(x,y - 1));
-
 		}
 	}
-
+	
+	/**
+	 * Return next zone from current zone at the given direction
+	 * @param direction
+	 * @return
+	 */
 	public Zone getNextZone(Direction direction) {
 
 		int x = currentZone.getX();
@@ -124,6 +155,13 @@ public class World {
 
 	}
 
+	/**
+	 * Return next zone from given zone and direction
+	 * @param x
+	 * @param y
+	 * @param direction
+	 * @return
+	 */
 	public Zone getNextZone(int x, int y, Direction direction){
 		
 		//TODO use translateXY
@@ -143,7 +181,7 @@ public class World {
 		return getZone(x,y);
 	}
 
-	public ArrayList<Zone> getAccessibleNeighboorZones(int x, int y){
+	public ArrayList<Zone> getAccessibleNeighborZones(int x, int y){
 		ArrayList<Zone> list = new ArrayList<Zone>();
 		
 		Zone zone = getZone(x,y);
@@ -155,9 +193,9 @@ public class World {
 		}
 
 		return list;
-
 	}
-	public ArrayList<Zone> getNeighboorZones(int x, int y){
+	
+	public ArrayList<Zone> getNeighborZones(int x, int y){
 		ArrayList<Zone> list = new ArrayList<Zone>();
 		
 		//TODO use translate X Y
@@ -173,6 +211,18 @@ public class World {
 	public boolean hasBeenVisited(Zone zone){
 		return visitedZones.contains(zone);
 	}
+	
+	
+	public boolean isTrap(){
+		
+		for(Zone zone : visitedZones){
+			if(!zone.isFullyDiscovered()){
+				System.out.println(zone);
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public Zone getCurrentZone() {
 		return currentZone;
@@ -182,6 +232,15 @@ public class World {
 		this.currentZone = currentZone;
 	}
 	
+	/**
+	 * Compute direction from (x1,y1) to (x2, y2)
+	 * This only work for neighbors points
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return
+	 */
 	public static Direction resolveDirection(int x1, int y1, int x2, int y2){
 		
 		if(x1 - x2 == -1){
@@ -204,18 +263,13 @@ public class World {
 		}
 	}
 	
-	public boolean isTrap(){
-		
-		for(Zone zone : visitedZones){
-			if(!zone.isFullyDiscovered()){
-				return false;
-			}
-		}
-		return true;
-	}
-
+	/**
+	 * Compute X coordinate from given X and direction
+	 * @param x
+	 * @param direction
+	 * @return x + 1 if Direction.EAST, x - 1 if Direction.WEST, x otherwise
+	 */
 	public static int translateX(int x, Direction direction){
-
 
 		if (direction == direction.EAST){
 			x = x + 1;
@@ -225,6 +279,13 @@ public class World {
 		}
 		return x;
 	}
+	
+	/**
+	 * Compute Y coordinate from given Y and direction
+	 * @param y
+	 * @param direction
+	 * @return y + 1 if Direction.NORTH, y - 1 if Direction.SOUTH, y otherwise
+	 */
 	public static int translateY(int y, Direction direction){
 
 		if(direction == Direction.NORTH){
@@ -238,4 +299,3 @@ public class World {
 	}
 
 }
-
