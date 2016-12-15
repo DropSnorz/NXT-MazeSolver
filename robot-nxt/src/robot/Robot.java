@@ -82,8 +82,13 @@ public class Robot {
 			//Chemin viable, prochaine zone connue, zone courante non pleinement découverte.
 			//On tourne a droite � la recherche de nouveaux chemins.
 			turnRight();
-		}		
-
+		}
+			
+		else if(state == State.STATE_ACCESSIBLE && 
+				currentZone.getLastAccessZone() == nextZone){
+			currentZone.setLastAccessZone(currentZone);
+			turnRight();
+		}
 		else{
 			moveToTheNextZone();
 		}
@@ -96,7 +101,7 @@ public class Robot {
 		context.reachNextZone();
 		world.reachNextZone(direction);
 		
-		if(world.isTrap()){
+		if(!hasFindExit && world.isTrap()){
 			System.out.println("Trap detected");
 			exploring = false;
 		}

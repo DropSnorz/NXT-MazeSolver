@@ -10,7 +10,7 @@ public class Zone extends PathNode {
 	protected int x;
 	protected int y;
 	protected boolean excluded = false;
-	//protected Zone lastNextZone;
+	protected Zone lastAccessZone;
 
 	protected Map<Direction, State> stateMap;
 	protected Map<Direction, Boolean> scanMap;
@@ -143,6 +143,15 @@ public class Zone extends PathNode {
 
 	public void setExcluded(boolean excluded) {
 		this.excluded = excluded;
+	}
+
+	
+	public Zone getLastAccessZone() {
+		return lastAccessZone;
+	}
+
+	public void setLastAccessZone(Zone lastAccessZone) {
+		this.lastAccessZone = lastAccessZone;
 	}
 
 	public String toString(){

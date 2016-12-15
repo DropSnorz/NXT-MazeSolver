@@ -29,7 +29,9 @@ public class Main {
 		.addPath(2, 2, Direction.NORTH)
 		.addExit(2, 2, Direction.SOUTH)
 		.addPath(2, 2, Direction.WEST)
-		.addPath(2, 1, Direction.NORTH);
+		.addPath(2, 1, Direction.NORTH)
+		.addPath(2, 0, Direction.WEST);
+
 		World example = builder.getWorld();
 
 

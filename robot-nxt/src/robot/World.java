@@ -54,6 +54,7 @@ public class World {
 
 		int x = currentZone.getX();
 		int y = currentZone.getY();
+		
 
 		if(direction == Direction.NORTH){
 			y = y - 1;
@@ -83,6 +84,7 @@ public class World {
 		if(!hasBeenVisited(zone)){
 			visitedZones.add(zone);
 		}
+		currentZone.setLastAccessZone(zone);
 		currentZone = zone;
 		return zone;
 	}
@@ -217,7 +219,6 @@ public class World {
 		
 		for(Zone zone : visitedZones){
 			if(!zone.isFullyDiscovered()){
-				System.out.println(zone);
 				return false;
 			}
 		}
