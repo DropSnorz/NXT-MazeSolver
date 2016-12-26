@@ -11,8 +11,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		Robot robot = new Robot("coucou");
-
+		Robot robot = new Robot("test");
 
 		MazeBuilder builder =  new MazeBuilder();
 		builder.addPath(0, 0, Direction.SOUTH)

@@ -33,7 +33,6 @@ public class Zone extends PathNode {
 	public State getState(Direction direction){
 
 		return stateMap.get(direction);
-
 	}
 
 	public boolean isFullyDiscovered(){
@@ -64,6 +63,7 @@ public class Zone extends PathNode {
 		return false;
 
 	}
+	
 	
 	public boolean isBlockedZone(){
 		
@@ -136,6 +136,5 @@ public class Zone extends PathNode {
 	public String toString(){
 		return "Zone: " + x + ", " + y;
 	}
-
 
 }

@@ -1,13 +1,10 @@
 package robot;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Maze and context representation
- * @author Arthur
  *
  */
 public class World {
@@ -52,22 +49,8 @@ public class World {
 	 */
 	public Zone reachNextZone(Direction direction){
 
-		int x = currentZone.getX();
-		int y = currentZone.getY();
-		
-
-		if(direction == Direction.NORTH){
-			y = y - 1;
-		}
-		else if(direction == Direction.SOUTH){
-			y = y + 1;
-		}
-		else if(direction == Direction.EAST){
-			x = x +1;
-		}
-		else{
-			x = x -1;
-		}
+		int x = translateX(currentZone.getX(), direction);
+		int y = translateY(currentZone.getY(), direction);
 
 		Zone zone;
 		if(!containsZone(x,y)){
@@ -166,21 +149,10 @@ public class World {
 	 */
 	public Zone getNextZone(int x, int y, Direction direction){
 		
-		//TODO use translateXY
-		if(direction == Direction.NORTH){
-			y = y - 1;
-		}
-		else if(direction == Direction.SOUTH){
-			y = y + 1;
-		}
-		else if(direction == Direction.EAST){
-			x = x +1;
-		}
-		else{
-			x = x -1;
-		}
+		int nextX = translateX(x, direction);
+		int nextY = translateY(y,direction);
 
-		return getZone(x,y);
+		return getZone(nextX,nextY);
 	}
 
 	public ArrayList<Zone> getAccessibleNeighborZones(int x, int y){
@@ -188,8 +160,9 @@ public class World {
 		
 		Zone zone = getZone(x,y);
 		for(Direction direction : Direction.values()){
-			if(zone.getState(direction) == State.STATE_ACCESSIBLE ||
-					zone.getState(direction) == State.STATE_ACCESSIBLE_DEAD){
+			State state = zone.getState(direction);
+			if(state == State.STATE_ACCESSIBLE ||
+					state == State.STATE_ACCESSIBLE_DEAD){
 				list.add(getZone(translateX(x,direction), translateY(y,direction)));
 			}
 		}
@@ -213,7 +186,6 @@ public class World {
 	public boolean hasBeenVisited(Zone zone){
 		return visitedZones.contains(zone);
 	}
-	
 	
 	public boolean isTrap(){
 		
@@ -272,10 +244,10 @@ public class World {
 	 */
 	public static int translateX(int x, Direction direction){
 
-		if (direction == direction.EAST){
+		if (direction == Direction.EAST){
 			x = x + 1;
 		}
-		else if (direction == direction.WEST){
+		else if (direction == Direction.WEST){
 			x = x - 1;
 		}
 		return x;
@@ -292,7 +264,7 @@ public class World {
 		if(direction == Direction.NORTH){
 			y = y - 1;
 		}
-		else if (direction == direction.SOUTH){
+		else if (direction == Direction.SOUTH){
 			y = y + 1;
 		}
 		

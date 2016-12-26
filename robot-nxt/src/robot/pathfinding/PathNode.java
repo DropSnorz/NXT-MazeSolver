@@ -7,13 +7,13 @@ public abstract class PathNode {
 	int hCost; 
 	//Graph cost
 	int gCost;
-	
-    public int calculategCosts(PathNode previousNode) {
-        
-            return previousNode.getgCost() + 1;
-        
-    }
-    
+
+	public int calculategCosts(PathNode previousNode) {
+
+		return previousNode.getgCost() + 1;
+
+	}
+
 	public PathNode getPrevious() {
 		return previous;
 	}
@@ -27,23 +27,23 @@ public abstract class PathNode {
 		this.hCost = hCost;
 	}
 	public int getfCost() {
-		  return gCost + hCost;
+		return gCost + hCost;
 	}
-	
+
 	public int getgCost() {
 		return gCost;
 	}
 	public void setgCost(PathNode node) {
-        setgCost(previous, 1);
+		setgCost(previous, 1);
 
 	}
 	public void setgCost(PathNode node, int cost) {
-        setgCost(previous.getgCost()+ cost);
+		setgCost(previous.getgCost()+ cost);
 
 	}
 	private void setgCost(int cost) {
 		this.gCost = cost + 1;
 	}
-	
-	
+
+
 }

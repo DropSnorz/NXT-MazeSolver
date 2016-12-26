@@ -1,9 +1,7 @@
 package robot.pathfinding;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import robot.World;
 import robot.Zone;
@@ -12,7 +10,7 @@ import robot.Zone;
  * PathFinder Class
  * Provide A* implementation to find path between two zones
  * 
- * Highly inspired frm work by Tim Coen
+ * Highly inspired from work by Tim Coen
  * http://software-talk.org/blog/2012/01/a-star-java/
  */
 public class PathFinder {
@@ -43,7 +41,6 @@ public class PathFinder {
 		Zone currentNode;
 		boolean done = false;
 		while(!done){
-
 			currentNode = getLowestCostInOpen();
 			close.add(currentNode);
 			open.remove(currentNode);
@@ -77,7 +74,6 @@ public class PathFinder {
 						neighbor.setPrevious(currentNode); 
 						neighbor.setgCost(currentNode); 
 					}
-
 				}   
 			}
 			if (open.isEmpty()) { // no path exists
@@ -96,19 +92,16 @@ public class PathFinder {
 	private List<Zone> generatePath(Zone start, Zone goal) {
 
 		LinkedList<Zone> path = new LinkedList<Zone>();
-
 		Zone current = goal;
 		boolean done = false;
-		
+
 		//Start equals goal, no path required
 		if(start == goal){
 			return path;
 		}
 		while (!done) {
 			path.add(0,current);
-
 			current = (Zone) current.getPrevious();
-
 			if (current.equals(start)) {
 				done = true;
 			}
@@ -126,7 +119,7 @@ public class PathFinder {
 		}
 		return current;
 	}
-	
+
 	/**
 	 * Generate heuristic cost for two adjacent nodes
 	 * 
@@ -137,14 +130,14 @@ public class PathFinder {
 	 * @return cost
 	 */
 	private int generatehCost(Zone current, Zone dest){
-		
+
 		if(Math.abs(current.getX()) - Math.abs(dest.getX()) >= 1){
 			return 0;
 		}
 		if(Math.abs(current.getY()) - Math.abs(dest.getY()) >= 1){
 			return 0;
 		}
-		
+
 		return 1;
 	}
 }

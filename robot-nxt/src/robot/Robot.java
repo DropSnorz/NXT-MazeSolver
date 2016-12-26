@@ -2,11 +2,6 @@ package robot;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lejos.nxt.LightSensor;
-import lejos.nxt.Motor;
-import lejos.nxt.SensorPort;
-import lejos.nxt.UltrasonicSensor;
 import robot.pathfinding.PathFinder;
 
 public class Robot {
@@ -47,7 +42,6 @@ public class Robot {
 			}
 			
 			resolvePath(currentZone, minZone);
-			
 		}
 		else{
 
