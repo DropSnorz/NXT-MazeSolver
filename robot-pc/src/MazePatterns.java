@@ -73,4 +73,11 @@ public static World loopMazeWithoutExit(){
 		builder4.addExit(0, 0, Direction.NORTH);
 		return builder4.getWorld();
 	}
+	
+	public static World blockedMaze(){
+		//Robot in front of exit
+		MazeBuilder builder4 =  new MazeBuilder();
+		builder4.addPath(0, 0, Direction.NORTH);
+		return builder4.getWorld();
+	}
 }

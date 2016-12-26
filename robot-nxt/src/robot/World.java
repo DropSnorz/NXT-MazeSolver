@@ -84,7 +84,7 @@ public class World {
 		if(!hasBeenVisited(zone)){
 			visitedZones.add(zone);
 		}
-		currentZone.setLastAccessZone(zone);
+		zone.setCrossingCount(zone.getCrossingCount() + 1);
 		currentZone = zone;
 		return zone;
 	}
