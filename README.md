@@ -5,7 +5,7 @@ Java maze solver implementation running on NXT bricks (Lego Mindstorms NXT).
 A robot is placed inside a simple labyrinth without any knowledge about the context.
 The robot have to discover some parts of the maze to find the exit. When the exit has been detected, robot runs A* to compute the shortest path from the exit to the starting point
 
-![Path finding example] (http://www.dropsnorz.com/projects/nxt/NXTMazeSolverExample-en.PNG)
+![Path finding example](http://www.dropsnorz.com/projects/nxt/NXTMazeSolverExample-en.PNG)
 
 ## Robot capabilities and Maze structure
 
